@@ -79,7 +79,7 @@ if __name__ == '__main__':
         config.write(configfile)
 
     # Get files in current directory
-    files = get_files()
+    files = get_files("./", config['DEFAULT']['include_files'].split(","))
     uploaded_files = nc.listitems()['files']
     
     

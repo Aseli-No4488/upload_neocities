@@ -52,25 +52,27 @@ if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf8')
     
-    # Ask account
-    id = input(f"Enter your Neocities ID({config['DEFAULT']['id']}): ")
-    if id == '':
-        id = config['DEFAULT']['id']
-        config['DEFAULT']['id'] = id
-        
+    while True:
+        # Ask account
+        id = input(f"Enter your Neocities ID({config['DEFAULT']['id']}): ")
+        if id == '':
+            id = config['DEFAULT']['id']
+        else:
+            config['DEFAULT']['id'] = id
+            
+        password = input(f"Enter your Neocities password({config['DEFAULT']['password']}): ")
+        if password == '':
+            password = config['DEFAULT']['password']
+        else:
+            config['DEFAULT']['password'] = password
     
-    password = input(f"Enter your Neocities password({config['DEFAULT']['password']}): ")
-    if password == '':
-        password = config['DEFAULT']['password']
-        config['DEFAULT']['password'] = password
-    
-    # Login
-    try:
-        nc = neocities.NeoCities(id, password)
-    except Exception as e:
-        print('Error logging in:', e)
-        input('Press enter to exit...')
-        exit(1)
+        # Login
+        try:
+            nc = neocities.NeoCities(id, password)
+            break
+        except Exception as e:
+            print("Error:", e)
+            print('Login failed. Please retry \n\n', )
     
     # Save the configuration
     with open('config.ini', 'w', encoding='utf8') as configfile:
